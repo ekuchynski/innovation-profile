@@ -1,10 +1,17 @@
 import MainLayout from '@/components/layout/MainLayout'
 import '@/styles/globals.css'
 import "../public/fa/css/all.min.css";
+import { useState } from 'react';
+import { SessionContextProvider } from '@supabase/auth-helpers-react'
+import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs';
 
 export default function App({ Component, pageProps })
 {
-  return <MainLayout>
-    {Component.getLayout ? Component.getLayout(<Component {...pageProps} />) : <Component {...pageProps} />}
-  </MainLayout>
+  const [supabase] = useState(() => createBrowserSupabaseClient());
+
+  return <SessionContextProvider supabaseClient={supabase} initialSession={pageProps.initialSession}>
+    <MainLayout>
+      {Component.getLayout ? Component.getLayout(<Component {...pageProps} />) : <Component {...pageProps} />}
+    </MainLayout>
+  </SessionContextProvider>
 }
