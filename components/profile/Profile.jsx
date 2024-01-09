@@ -5,6 +5,7 @@ import EditorHtml from '../editors/EditorHtml';
 import EditorCheckbox from '../editors/EditorCheckbox';
 import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { v4 } from 'uuid';
+import ProfileLanguages from './ProfileLanguages';
 
 function Profile(props)
 {
@@ -15,6 +16,7 @@ function Profile(props)
    const [profile, setProfile] = useState();
    const [projects, setProjects] = useState();
    const [domains, setDomains] = useState();
+   const [templates, setTemplates] = useState();
 
    useEffect(() =>
    {
@@ -33,7 +35,7 @@ function Profile(props)
          return;
       }
 
-      const { data, error } = await supabase.from('profile').select('*, project(*), domain(*)').eq('tenantId', tenantId).maybeSingle();
+      const { data, error } = await supabase.from('profile').select('*, project(*), domain(*), project_template(*)').eq('tenantId', tenantId).maybeSingle();
       setLoading(false);
 
       if (error)
@@ -46,8 +48,10 @@ function Profile(props)
       {
          setProjects(data.project);
          setDomains(data.domain);
+         setTemplates(data.project_template);
          delete data.project;
          delete data.domain;
+         delete data.project_template;
          setProfile(data);
          form.setFieldsValue(data);
       }
@@ -129,6 +133,16 @@ function Profile(props)
                         </Space>,
                         children: <Row>
 
+                        </Row>
+                     },
+                     {
+                        key: 'tab5',
+                        label: <Space>
+                           <i className='fa-light fa-language' />
+                           <span>Project creation widget</span>
+                        </Space>,
+                        children: <Row>
+                           <ProfileLanguages data={templates} setData={setTemplates} />
                         </Row>
                      },
                      {
