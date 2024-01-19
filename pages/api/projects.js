@@ -4,7 +4,7 @@ import { URL_API, DEFAULT_FETCH_PARAMS, DEFAULT_HEADERS } from "@/utils/constant
 
 export default async function handler(req, res)
 {
-  const result = await fetch(`${URL_API}/project-templates?fields=id,name,description,languageDirections`, {
+  const result = await fetch(`${URL_API}/projects?fields=id,name,description,dueBy,createdAt,customer,languageDirections,analysisStatistics`, {
     ...DEFAULT_FETCH_PARAMS,
     headers: {
       ...DEFAULT_HEADERS,

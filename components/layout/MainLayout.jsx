@@ -39,7 +39,7 @@ export default function MainLayout(props)
                   </div>
                </div>
             </Header>
-            <Content style={{ padding: 10, marginTop: '0px', background: '#f8f8f8' }}>
+            <Content style={{ padding: 10, marginTop: '0px', background: 'slategrey' }}>
                {props.children}
             </Content>
          </Layout>
